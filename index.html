@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Auto Scrolling Page</title>
+  <style>
+    /* Ensure there's enough content to scroll */
+    body {
+      height: auto; /* Adjust as needed */
+    }
+  </style>
+</head>
+<body>
+  <script>
+    (function autoScroll() {
+      const scrollSpeed = 1;      // Number of pixels to scroll per step
+      const scrollInterval = 10;  // Time in ms between each scroll step
+
+      // Helper function to determine the maximum scroll position
+      function getMaxScroll() {
+        return document.documentElement.scrollHeight - window.innerHeight;
+      }
+
+      // Set up the interval to auto-scroll
+      setInterval(function () {
+        if (window.pageYOffset < getMaxScroll()) {
+          // Scroll down by a small increment
+          window.scrollBy(0, scrollSpeed);
+        } else {
+          // When the bottom is reached, reset to the top
+          window.scrollTo(0, 0);
+        }
+      }, scrollInterval);
+    })();
+  </script>
+</body>
+</html>
