@@ -1,36 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
   <meta charset="UTF-8">
-  <title>Auto Scrolling Page</title>
+  <title>Auto Scroll Demo</title>
   <style>
-    /* Ensure there's enough content to scroll */
+    /* This ensures the page is long enough to scroll */
     body {
-      height: auto; /* Adjust as needed */
+      height: 2000px;
+      margin: 0;
+      padding: 20px;
+      font-family: Arial, sans-serif;
     }
   </style>
 </head>
 <body>
+  <h1>Auto Scroll Demo</h1>
+  <p>This page will automatically scroll down and then back up.</p>
+
   <script>
-    (function autoScroll() {
-      const scrollSpeed = 1;      // Number of pixels to scroll per step
-      const scrollInterval = 10;  // Time in ms between each scroll step
+    (function() {
+      const scrollStep = 10;      // Pixels to scroll per interval
+      const intervalTime = 50;    // Time between scrolls (in milliseconds)
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      let direction = 'down';
 
-      // Helper function to determine the maximum scroll position
-      function getMaxScroll() {
-        return document.documentElement.scrollHeight - window.innerHeight;
-      }
+      const scrollInterval = setInterval(() => {
+        const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
 
-      // Set up the interval to auto-scroll
-      setInterval(function () {
-        if (window.pageYOffset < getMaxScroll()) {
-          // Scroll down by a small increment
-          window.scrollBy(0, scrollSpeed);
+        if (direction === 'down') {
+          if (currentScroll >= maxScroll) {
+            direction = 'up';
+          } else {
+            window.scrollBy(0, scrollStep);
+          }
         } else {
-          // When the bottom is reached, reset to the top
-          window.scrollTo(0, 0);
+          if (currentScroll <= 0) {
+            clearInterval(scrollInterval);
+          } else {
+            window.scrollBy(0, -scrollStep);
+          }
         }
-      }, scrollInterval);
+      }, intervalTime);
     })();
   </script>
 </body>
